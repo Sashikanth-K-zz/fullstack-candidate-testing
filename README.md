@@ -10,9 +10,9 @@ npm run dev
 ```
 
 ## production url:
-```
+
 https://fullstack-candidate-testing-livid.vercel.app/
-```
+
 
 
 ## Other domains:

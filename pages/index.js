@@ -4,6 +4,7 @@ import Footer from "../components/footer";
 import JobList from "../components/JobList";
 
 import axios from "axios";
+import Navbar from "../components/navbar";
 
 const sortbydata = [
   {
@@ -58,8 +59,6 @@ function Index(props) {
       keyword: keyword,
     });
     setJobs(jobList.data.jobs);
-
-
   };
 
   const selectItem = (item) => {
@@ -71,7 +70,7 @@ function Index(props) {
 
   const selectSortItem = (item) => {
     item.selected = !item.selected;
-    let newdata = [ ...sortByData ];
+    let newdata = [...sortByData];
     setSortByData(newdata);
     getJobList();
   };
@@ -87,32 +86,34 @@ function Index(props) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <div>
-        <Header />
-      </div>
+    <div className="flex flex-col  bg-gray-100">
+      
+        <Header className="hidden" />
+      
 
-      <div>
-        <div class="shadow flex m-4">
-          <input
-            class="w-full  rounded p-2"
-            type="text"
-            placeholder="Search..."
-            value={keyword}
-            onChange={(e) => {
-              setKeyword(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                getJobList();
-              }
-            }}
-          />
-        </div>
+      {/* <div>
+        <Navbar />
+      </div> */}
+
+      <div className="shadow flex m-4">
+        <input
+          className="w-full rounded-md p-2"
+          type="text"
+          placeholder="Search..."
+          value={keyword}
+          onChange={(e) => {
+            setKeyword(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              getJobList();
+            }
+          }}
+        />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow ">
         <div className="flex flex-row">
-          <div className="flex flex-col ">
+          <div className="hidden md:block sm:flex sm:flex-col ">
             {filters.job_type ? (
               <div className="flex flex-col m-2 p-4 bg-white rounded-md text-sm leading-relaxed">
                 <h1 className="font-bold uppercase">Job type</h1>
@@ -217,8 +218,7 @@ function Index(props) {
 
           <div className="flex-1 flex flex-col m-2 p-4 bg-white rounded-md text-sm ">
             <div className="flex flex-row justify-end p-3">
-              
-              <div className="flex flex-row space-x-3">
+              <div className="flex flex-row flex-wrap space-x-3">
                 <p className="text-gray-500">Sort by:</p>
 
                 {sortByData.map((e) => {
@@ -236,8 +236,6 @@ function Index(props) {
                     </div>
                   );
                 })}
-
-                
               </div>
             </div>
             <div>

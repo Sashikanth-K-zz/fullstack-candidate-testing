@@ -4,7 +4,6 @@ import Footer from "../components/footer";
 import JobList from "../components/JobList";
 
 import axios from "axios";
-import Navbar from "../components/navbar";
 
 const sortbydata = [
   {
@@ -98,9 +97,6 @@ function Index(props) {
         changeNavOpen={changeNavOpen}
       />
 
-      {/* <div>
-        <Navbar />
-      </div> */}
 
       <div className="shadow flex m-4">
         <input

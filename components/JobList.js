@@ -1,31 +1,56 @@
 import Accordoin from "./Accordoin";
 
-function timeSince(str) {
-  var date = new Date(str);
-  var seconds = Math.floor((new Date() - date) / 1000);
+function time_ago(time) {
+  switch (typeof time) {
+    case "number":
+      break;
+    case "string":
+      time = +new Date(time);
+      break;
+    case "object":
+      if (time.constructor === Date) time = time.getTime();
+      break;
+    default:
+      time = +new Date();
+  }
+  var time_formats = [
+    [60, "seconds", 1], // 60
+    [120, "1 minute ago", "1 minute from now"], // 60*2
+    [3600, "minutes", 60], // 60*60, 60
+    [7200, "1 hour ago", "1 hour from now"], // 60*60*2
+    [86400, "hours", 3600], // 60*60*24, 60*60
+    [172800, "Yesterday", "Tomorrow"], // 60*60*24*2
+    [604800, "days", 86400], // 60*60*24*7, 60*60*24
+    [1209600, "Last week", "Next week"], // 60*60*24*7*4*2
+    [2419200, "weeks", 604800], // 60*60*24*7*4, 60*60*24*7
+    [4838400, "Last month", "Next month"], // 60*60*24*7*4*2
+    [29030400, "months", 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+    [58060800, "Last year", "Next year"], // 60*60*24*7*4*12*2
+    [2903040000, "years", 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+    [5806080000, "Last century", "Next century"], // 60*60*24*7*4*12*100*2
+    [58060800000, "centuries", 2903040000], // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+  ];
+  var seconds = (+new Date() - time) / 1000,
+    token = "ago",
+    list_choice = 1;
 
-  var interval = seconds / 31536000;
-
-  if (interval > 1) {
-    return Math.floor(interval) + " years";
+  if (seconds == 0) {
+    return "Just now";
   }
-  interval = seconds / 2592000;
-  if (interval > 1) {
-    return Math.floor(interval) + " months";
+  if (seconds < 0) {
+    seconds = Math.abs(seconds);
+    token = "from now";
+    list_choice = 2;
   }
-  interval = seconds / 86400;
-  if (interval > 1) {
-    return Math.floor(interval) + " days";
-  }
-  interval = seconds / 3600;
-  if (interval > 1) {
-    return Math.floor(interval) + " hours";
-  }
-  interval = seconds / 60;
-  if (interval > 1) {
-    return Math.floor(interval) + " minutes";
-  }
-  return Math.floor(seconds) + " seconds";
+  var i = 0,
+    format;
+  while ((format = time_formats[i++]))
+    if (seconds < format[0]) {
+      if (typeof format[2] == "string") return format[list_choice];
+      else
+        return Math.floor(seconds / format[2]) + " " + format[1] + " " + token;
+    }
+  return time;
 }
 
 const OrgHeader = (props) => {
@@ -58,10 +83,10 @@ const OrgContent = (props) => {
 
 const JobHeader = (props) => {
   return (
-    <div className="flex flex-row">
-      <div className=" flex-1 flex flex-col">
+    <div className="flex flex-row flex-wrap justify-between">
+      <div className=" flex flex-col">
         <h2 className="text-base ">{props.job.job_title}</h2>
-        <div className="flex flex-row font-light text-sm space-x-2 divide-x">
+        <div className="flex flex-row  flex-wrap justify-start font-light text-sm sm:space-x-2 ">
           <h4 className="">{props.job.job_type + " | "}</h4>
           <h4>
             {"$" +
@@ -76,14 +101,12 @@ const JobHeader = (props) => {
         </div>
       </div>
 
-      <div className="flex font-thin text-xs">
-        <h5>{timeSince(props.job.created) + " ago"}</h5>
+      <div className=" font-thin text-xs">
+        <h5>{time_ago(props.job.created) + " ago"}</h5>
       </div>
     </div>
   );
 };
-
-
 
 const JobContent = (props) => {
   return (
@@ -96,8 +119,12 @@ const JobContent = (props) => {
       </div>
       <div className="place-self-center sm:row-span-3">
         <div className=" space-y-3 flex flex-col justify-items-center align-middle">
-          <button className="bg-blue-500 text-white rounded-md  uppercase p-3 focus:outline-none">job details</button>
-          <button className="  rounded-md  p-3 focus:outline-none border-2 border-blue-500">Save Job</button>
+          <button className="bg-blue-500 text-white rounded-md  uppercase p-3 focus:outline-none">
+            job details
+          </button>
+          <button className="  rounded-md  p-3 focus:outline-none border-2 border-blue-500">
+            Save Job
+          </button>
         </div>
       </div>
 

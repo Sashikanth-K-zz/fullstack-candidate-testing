@@ -33,8 +33,13 @@ function Index(props) {
   let [filters, setFilters] = useState({});
   let [jobs, setJobs] = useState([]);
   let [keyword, setKeyword] = useState("");
+  let [isNavOpen, setIsNavOpen] = useState(false);
 
   let [sortByData, setSortByData] = useState(sortbydata);
+
+  const changeNavOpen = () => {
+    setIsNavOpen(!isNavOpen);
+  };
 
   const getJobList = async () => {
     let filtrs = {};
@@ -86,10 +91,12 @@ function Index(props) {
   }, []);
 
   return (
-    <div className="flex flex-col  bg-gray-100">
-      
-        <Header className="hidden" />
-      
+    <div className="flex flex-col min-h-full bg-gray-100">
+      <Header
+        className="hidden"
+        isnavopen={isNavOpen}
+        changeNavOpen={changeNavOpen}
+      />
 
       {/* <div>
         <Navbar />
@@ -111,11 +118,17 @@ function Index(props) {
           }}
         />
       </div>
-      <div className="flex-grow ">
+      <div className="flex-grow">
         <div className="flex flex-row">
-          <div className="hidden md:block sm:flex sm:flex-col ">
+          <div
+            className={`${
+              isNavOpen
+                ? "absolute shadow-2xl object-left-top border-2 opacity-100 border-blue-300 z-40"
+                : " hidden sm:flex sm:flex-col"
+            }`}
+          >
             {filters.job_type ? (
-              <div className="flex flex-col m-2 p-4 bg-white rounded-md text-sm leading-relaxed">
+              <div className="flex flex-col m-2 p-4 bg-white rounded-md text-sm leading-relaxed ">
                 <h1 className="font-bold uppercase">Job type</h1>
                 {filters.job_type.map((e) => {
                   return (

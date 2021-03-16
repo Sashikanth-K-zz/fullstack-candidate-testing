@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import JobList from "./components/JobList";
+import Header from "../components/header";
+import Footer from "../components/footer";
+import JobList from "../components/JobList";
 
 import axios from "axios";
 

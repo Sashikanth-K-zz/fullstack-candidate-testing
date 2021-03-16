@@ -16,15 +16,15 @@ https://fullstack-candidate-testing-livid.vercel.app/
 
 
 ## Other domains:
-```
+
 fullstack-candidate-testing-git-master-sashikanth-k.vercel.app
 fullstack-candidate-testing-jg8bkhf4z-sashikanth-k.vercel.app
-```
+
 
 ## project github link 
-```
+
 https://github.com/Sashikanth-K/fullstack-candidate-testing
-```
+
 
 ## personal details
 
